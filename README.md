@@ -16,6 +16,21 @@ Mobil uygulama API'ye yalnızca [API sözleşmesi](https://github.com/Hasmolam/c
 - API hazır olmadan ekranlar, aynı dosyadan çalışan sahte API ile yazılır.
 - Sözleşmede bir değişiklik gerekiyorsa API reposunda issue veya PR açılır. Sözleşme PR'ları frontend onayı olmadan birleşmez.
 
+## Tasarım
+
+Ekran tasarımları ve kullanıcı akışları Penpot'ta: [tasarım dosyası](https://design.penpot.app/?screen=viewer&file-id=e7ca6b81-c0d3-8029-8008-ffdfaf3f3871&page-id=e7ca6b81-c0d3-8029-8008-ffdfaf3f3872&section=interactions&index=0&share-id=9ffd2526-33a9-49bc-83f3-ee29a6cdea0b). Dosyada iki sayfa var:
+
+- **Ekranlar:** 15 mobil ekran (390×844). Sunum modunda dört akış tıklanarak gezilebilir: İlk açılış, Günlük kullanım, Giriş hatası ve Yanlış cevap.
+- **Tasarım sistemi:** renkler, yazı ölçeği ve bileşenler (Buton, Taş, Seçenek, Alan, Sekme çubuğu, Ders üst barı, maskot pozları).
+
+Akışlar:
+
+- **İlk açılış:** Karşılama, ilk ders, ders sonu, kayıt ("İlerlemeni kaydet"), seri, lig ve öğrenme yolu. Hesabı olan kullanıcı karşılamadan girişe geçer.
+- **Günlük kullanım:** Öğrenme yolundan derse girilir. Ders boşluk doldurma, çoktan seçmeli test ve eşleştirme sorularından oluşur, ardından ders sonu gelir. Seri ekranı yalnızca günün ilk dersinden sonra, lig ekranı yalnızca sıralama değişince gösterilir.
+- **Alt sekmeler:** Öğren, Lig ve Profil.
+
+Tema dosyası ([#3](https://github.com/Hasmolam/coding-game-mobile/issues/3)) renk, yazı ve köşe değerlerini Tasarım sistemi sayfasından alır.
+
 ## Yol haritası
 
 İşler yukarıdan aşağıya sırayla ilerler. Aynı aşamadaki işler paralel yürüyebilir. Her işin ayrıntısı, ne zaman bitmiş sayılacağı ve hangi işe bağlı olduğu kendi issue'sunda yazar. Güncel durumu [Issues](https://github.com/Hasmolam/coding-game-mobile/issues) ve [Milestones](https://github.com/Hasmolam/coding-game-mobile/milestones) sayfalarından takip edin.
