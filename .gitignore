@@ -1,19 +1,40 @@
+# Bağımlılıklar
 node_modules/
+
+# Expo
 .expo/
 dist/
 web-build/
-ios/
-android/
+expo-env.d.ts
+
+# Native (Continuous Native Generation ile üretilir)
+/ios
+/android
+.kotlin/
+*.orig.*
 *.jks
 *.p8
 *.p12
 *.key
+*.pem
 *.mobileprovision
-*.orig.*
+
+# Metro
+.metro-health-check*
+
+# TypeScript
+*.tsbuildinfo
+
+# Loglar
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# Gizli bilgiler
 .env
 .env*.local
-npm-debug.*
-yarn-error.*
+
+# Editör ve sistem
 .DS_Store
 .idea/
 .vscode/
