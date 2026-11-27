@@ -1,9 +1,9 @@
 /*
- * Uygulamanın tek tema dosyası. Renk, yazı tipi, köşe ve boşluk değerleri
- * yalnızca burada tanımlanır. Aşağıdaki değerler React Native Reusables'ın
- * varsayılanlarıdır; Penpot'taki tasarım sistemi değerleri #3 ile gelecek.
+ * Uygulamanın tek tema dosyası. Renk, yazı tipi, yazı boyutu, köşe ve kenar
+ * değerleri yalnızca burada tanımlanır; bileşenlerde ham değer yazılmaz.
+ * Kaynak: Penpot'taki "Tasarım sistemi" sayfası ("Oyunlu taşlar").
  *
- * Uygulama yalnızca açık temalı olduğu için renkler @theme içinde, tek set
+ * Uygulama yalnızca açık temalı olduğu için değerler @theme içinde, tek set
  * olarak tanımlanır (açık/koyu varyantı yok).
  */
 @import 'tailwindcss';
@@ -11,30 +11,167 @@
 @import 'tw-animate-css';
 
 @theme {
-  --radius: 10px;
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  /* ---------- Renkler ----------
+   * Her rengin tek bir görevi var. Basılabilir yüzeylerin altındaki 4px'lik
+   * kenar için her dolgunun bir "-edge" tonu vardır. Metin taşıyan dolgular
+   * WCAG AA (4.5:1) geçer; "-bright" tonlar yalnızca metinsiz yüzeylerdedir
+   * (ilerleme çubuğu, yol düğümü, podyum). */
+
+  /* Zemin ve metin */
+  --color-background: #eef0fa;
+  --color-foreground: #1b1d3a;
+  --color-muted: #e8eaf5;
+  --color-muted-foreground: #585c80;
+  --color-border: #c8cee6;
+  --color-divider: #e8eaf5;
+  --color-input: #c8cee6;
+  --color-ring: #1e5fd1;
+
+  /* Kart (beyaz yüzey) */
+  --color-card: #ffffff;
+  --color-card-foreground: #1b1d3a;
+  --color-card-edge: #d5d9ee;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #1b1d3a;
+
+  /* Ana eylem ve XP: mavi */
+  --color-primary: #1e5fd1;
+  --color-primary-edge: #1546a0;
+  --color-primary-foreground: #ffffff;
+  --color-primary-soft: #dce8fe;
+  --color-primary-bright: #2f7bf6;
+
+  /* İkincil buton: beyaz, çerçeveli */
+  --color-secondary: #ffffff;
+  --color-secondary-edge: #d5d9ee;
+  --color-secondary-foreground: #1b1d3a;
+
+  /* RNR'nin basılı/üzerine gelme durumları için */
+  --color-accent: #dce8fe;
+  --color-accent-foreground: #1b1d3a;
+
+  /* Doğru: yeşil */
+  --color-success: #15803d;
+  --color-success-edge: #115e2c;
+  --color-success-foreground: #ffffff;
+  --color-success-soft: #ddf7e6;
+  --color-success-strong: #14532d;
+  --color-success-bright: #22c55e;
+  --color-success-highlight: #4ade80;
+
+  /* Yanlış: kırmızı */
+  --color-destructive: #d12b39;
+  --color-destructive-edge: #a81f2b;
+  --color-destructive-foreground: #ffffff;
+  --color-destructive-soft: #fde3e5;
+  --color-destructive-strong: #b42332;
+
+  /* Seri: turuncu (dolgu üzerinde lacivert metin) */
+  --color-streak: #ffa62b;
+  --color-streak-edge: #e08a12;
+  --color-streak-foreground: #1b1d3a;
+  --color-streak-soft: #fff0d9;
+  --color-streak-strong: #9a4a00;
+
+  /* Lig: mor */
+  --color-league: #5b5bd6;
+  --color-league-edge: #4343b5;
+  --color-league-foreground: #ffffff;
+  --color-league-soft: #e6e6fd;
+  --color-league-strong: #4338ca;
+  --color-league-bright: #7c7cf6;
+
+  /* Pasif buton */
+  --color-disabled: #d9dcec;
+  --color-disabled-edge: #b8bdd4;
+  --color-disabled-foreground: #565a80;
+
+  /* İlerleme çubuğu zemini */
+  --color-track: #dcdff0;
+
+  /* Kod kartı (koyu yüzey) */
+  --color-code: #1b1d3a;
+  --color-code-edge: #0f1126;
+  --color-code-foreground: #eef0fa;
+  --color-code-keyword: #9ab8ff;
+  --color-code-string: #ffc46b;
+  --color-code-output: #22c55e;
+  --color-code-divider: #33365a;
+
+  /* ---------- Yazı tipleri ----------
+   * React Native'de kalınlık yazı tipi dosyasıyla seçilir; font-bold gibi
+   * sınıflar yerine aşağıdaki aileleri kullan (ör. font-sans-extrabold). */
+  --font-sans: 'Rubik_400Regular';
+  --font-sans-medium: 'Rubik_500Medium';
+  --font-sans-semibold: 'Rubik_600SemiBold';
+  --font-sans-bold: 'Rubik_700Bold';
+  --font-sans-extrabold: 'Rubik_800ExtraBold';
+  --font-mono: 'JetBrainsMono_400Regular';
+  --font-mono-semibold: 'JetBrainsMono_600SemiBold';
+
+  /* ---------- Yazı boyutları (satır yüksekliğiyle) ---------- */
+  --text-display: 64px; /* büyük sayılar: seri günü, XP */
+  --text-display--line-height: 70px;
+  --text-title: 36px; /* ekran başlığı: "Kusursuz ders!" */
+  --text-title--line-height: 44px;
+  --text-heading: 30px; /* soru başlığı: "Boşluğu doldur" */
+  --text-heading--line-height: 38px;
+  --text-subheading: 20px; /* kart başlığı, sonuç değeri */
+  --text-subheading--line-height: 26px;
+  --text-button: 18px;
+  --text-button--line-height: 24px;
+  --text-body: 17px;
+  --text-body--line-height: 24px;
+  --text-caption: 15px;
+  --text-caption--line-height: 20px;
+  --text-small: 13px; /* sekme etiketi, gün kısaltması */
+  --text-small--line-height: 17px;
+  --text-code: 22px;
+  --text-code--line-height: 29px;
+
+  /* ---------- Köşeler ---------- */
+  --radius-stone: 12px; /* taş, seçenek, dokunma alanı */
+  --radius-button: 16px;
+  --radius-card: 24px;
+  /* RNR bileşenlerinin kullandığı genel ölçek */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
 
   --spacing-hairline: hairlineWidth();
+}
 
-  --color-background: oklch(1 0 0);
-  --color-foreground: oklch(0.145 0 0);
-  --color-card: oklch(1 0 0);
-  --color-card-foreground: oklch(0.145 0 0);
-  --color-popover: oklch(1 0 0);
-  --color-popover-foreground: oklch(0.145 0 0);
-  --color-primary: oklch(0.205 0 0);
-  --color-primary-foreground: oklch(0.985 0 0);
-  --color-secondary: oklch(0.97 0 0);
-  --color-secondary-foreground: oklch(0.205 0 0);
-  --color-muted: oklch(0.97 0 0);
-  --color-muted-foreground: oklch(0.556 0 0);
-  --color-accent: oklch(0.97 0 0);
-  --color-accent-foreground: oklch(0.205 0 0);
-  --color-destructive: oklch(0.577 0.245 27.325);
-  --color-border: oklch(0.922 0 0);
-  --color-input: oklch(0.922 0 0);
-  --color-ring: oklch(0.708 0 0);
+/* ---------- Basılabilir kenar ----------
+ * Basılabilen her şeyin altında 4px koyu, bulanık olmayan bir kenar var.
+ * Basılınca öğe 4px aşağı iner ve kenar kaybolur (bkz. Button). */
+@utility edge-primary {
+  box-shadow: 0 4px 0 var(--color-primary-edge);
+}
+@utility edge-secondary {
+  box-shadow: 0 4px 0 var(--color-secondary-edge);
+}
+@utility edge-success {
+  box-shadow: 0 4px 0 var(--color-success-edge);
+}
+@utility edge-destructive {
+  box-shadow: 0 4px 0 var(--color-destructive-edge);
+}
+@utility edge-streak {
+  box-shadow: 0 4px 0 var(--color-streak-edge);
+}
+@utility edge-league {
+  box-shadow: 0 4px 0 var(--color-league-edge);
+}
+@utility edge-disabled {
+  box-shadow: 0 4px 0 var(--color-disabled-edge);
+}
+@utility edge-card {
+  box-shadow: 0 4px 0 var(--color-card-edge);
+}
+@utility edge-code {
+  box-shadow: 0 4px 0 var(--color-code-edge);
+}
+@utility edge-none {
+  box-shadow: 0 0 0 transparent;
 }

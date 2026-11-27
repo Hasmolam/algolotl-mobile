@@ -4,36 +4,23 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import * as React from 'react';
 import { Platform, Text as RNText, type Role } from 'react-native';
 
+// Metin stilleri Penpot'taki "Yazı" ölçeğinden gelir. Kalınlık için font-bold
+// gibi sınıflar değil, font-sans-* aileleri kullanılır (bkz. src/global.css).
 const textVariants = cva(
-  cn(
-    'text-base text-foreground',
-    Platform.select({
-      web: 'select-text',
-    }),
-  ),
+  cn('font-sans text-body text-foreground', Platform.select({ web: 'select-text' })),
   {
     variants: {
       variant: {
         default: '',
-        h1: cn(
-          'text-center text-4xl font-extrabold tracking-tight',
-          Platform.select({ web: 'scroll-m-20 text-balance' }),
-        ),
-        h2: cn(
-          'border-b border-border pb-2 text-3xl font-semibold tracking-tight',
-          Platform.select({ web: 'scroll-m-20 first:mt-0' }),
-        ),
-        h3: cn('text-2xl font-semibold tracking-tight', Platform.select({ web: 'scroll-m-20' })),
-        h4: cn('text-xl font-semibold tracking-tight', Platform.select({ web: 'scroll-m-20' })),
-        p: 'mt-3 leading-7 sm:mt-6',
-        blockquote: 'mt-4 border-l-2 pl-3 italic sm:mt-6 sm:pl-6',
-        code: cn(
-          'relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold',
-        ),
-        lead: 'text-xl text-muted-foreground',
-        large: 'text-lg font-semibold',
-        small: 'text-sm leading-none font-medium',
-        muted: 'text-sm text-muted-foreground',
+        display: 'font-sans-extrabold text-display',
+        h1: 'font-sans-extrabold text-title',
+        h2: 'font-sans-extrabold text-heading',
+        h3: 'font-sans-extrabold text-subheading',
+        muted: 'text-muted-foreground',
+        label: 'font-sans-semibold',
+        caption: 'font-sans-semibold text-caption text-muted-foreground',
+        small: 'font-sans-semibold text-small text-muted-foreground',
+        code: 'font-mono text-code',
       },
     },
     defaultVariants: {
@@ -50,8 +37,6 @@ const ROLE: Partial<Record<TextVariant, Role>> = {
   h1: 'heading',
   h2: 'heading',
   h3: 'heading',
-  h4: 'heading',
-  blockquote: Platform.select({ web: 'blockquote' as Role }),
   code: Platform.select({ web: 'code' as Role }),
 };
 
@@ -59,7 +44,6 @@ const ARIA_LEVEL: Partial<Record<TextVariant, string>> = {
   h1: '1',
   h2: '2',
   h3: '3',
-  h4: '4',
 };
 
 const TextClassContext = React.createContext<string | undefined>(undefined);

@@ -68,6 +68,31 @@ Kurallar (ESLint ile denetlenir):
 - `shared` hiçbir feature'a bağlı olamaz.
 - Yeni bir React Native Reusables bileşeni eklemek için: `npx @react-native-reusables/cli@latest add <bileşen>`. Bileşen `src/shared/ui/primitives` klasörüne gelir.
 
+## Tema ve temel bileşenler
+
+Bütün renk, yazı tipi, yazı boyutu, köşe ve kenar değerleri [`src/global.css`](src/global.css) dosyasında, Penpot'taki "Tasarım sistemi" sayfasından alınmıştır. Ekranlarda bu değerler sınıf adlarıyla kullanılır, ham değer (`#1E5FD1`, `16`) yazılmaz.
+
+| Ne                | Sınıflar                                                                                                                               |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Renk              | `bg-primary`, `text-muted-foreground`, `bg-streak-soft`, `text-success-strong`...                                                      |
+| Yazı ailesi       | `font-sans`, `font-sans-semibold`, `font-sans-bold`, `font-sans-extrabold`, `font-mono`                                                |
+| Yazı boyutu       | `text-display`, `text-title`, `text-heading`, `text-subheading`, `text-button`, `text-body`, `text-caption`, `text-small`, `text-code` |
+| Köşe              | `rounded-stone` (12), `rounded-button` (16), `rounded-card` (24)                                                                       |
+| Basılabilir kenar | `edge-primary`, `edge-card`, `edge-success`... (altta 4px koyu kenar)                                                                  |
+
+React Native'de kalınlık yazı tipi dosyasıyla seçildiği için `font-bold` gibi sınıflar yerine `font-sans-bold` gibi aileler kullanılır.
+
+Temel bileşenler `src/shared/ui/primitives` klasöründe:
+
+- `Text`: `display`, `h1`, `h2`, `h3`, `muted`, `label`, `caption`, `small`, `code` varyantları.
+- `Button`: `default` (mavi), `secondary` (beyaz), `success`, `destructive`, `streak`, `ghost`, `link`. `disabled` verilince pasif görünüme geçer. Basılınca 4px aşağı iner.
+- `Card`: beyaz kart; `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter` ile.
+- `Progress`: ders üst barındaki 16px çubuk (`size="default"`) ve ünite ilerlemesindeki 12px çubuk (`size="sm"`).
+
+Bileşenlerin hepsi, geliştirme sırasında karşılama ekranındaki "Bileşenler" bağlantısından açılan `/bilesenler` ekranında görülebilir. Bu ekran yayın sürümünde açılmaz.
+
+Tema dosyasına yeni bir yazı boyutu, yazı ailesi, köşe ya da kenar eklenirse [`src/shared/lib/utils.ts`](src/shared/lib/utils.ts) içindeki listeye de eklenmelidir. Yoksa `cn()` sınıf çakışmalarını yanlış çözer.
+
 ## API ile ilişki
 
 Mobil uygulama API'ye yalnızca [API sözleşmesi](https://github.com/Hasmolam/algolotl-api/blob/main/API-SOZLESMESI.md) üzerinden bağlıdır.
