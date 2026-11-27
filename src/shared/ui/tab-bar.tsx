@@ -12,7 +12,7 @@ export function TabBar({ className, ...props }: ViewProps) {
   return (
     <View
       className={cn(
-        'pb-safe-offset-1.5 flex-row justify-around border-t-2 border-nav-border bg-card px-4 pt-1.5',
+        'flex-row justify-around border-t-2 border-nav-border bg-card px-4 pt-1.5 pb-safe-offset-[6px]',
         className,
       )}
       {...props}
