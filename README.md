@@ -4,9 +4,69 @@ Algolotl'un mobil istemcisi. Algolotl, Python öğreten oyunlaştırılmış bir
 
 ## Teknoloji
 
-- React Native ve Expo, TypeScript
+- Expo SDK 58 (React Native 0.88), TypeScript, Expo Router
+- Stil: [Uniwind](https://docs.uniwind.dev) (React Native için Tailwind CSS 4)
+- Temel bileşenler: [React Native Reusables](https://reactnativereusables.com) (bileşen kodu projeye kopyalanır)
+- Animasyon: Reanimated
 - Android ve iOS derlemeleri için EAS Build
 - Kod kalitesi için ESLint ve Prettier
+
+## Yerelde çalıştırma
+
+Gerekenler: Node.js 22.13 veya üstü (22, 24 ya da 26 serisi; tek sayılı sürümler desteklenmez) ve telefonda **Expo Go** uygulamasının SDK 58 sürümü.
+
+```bash
+git clone git@github.com:Hasmolam/algolotl-mobile.git
+cd algolotl-mobile
+npm install
+npm start
+```
+
+Terminalde çıkan QR kodu Android'de Expo Go ile, iOS'ta kamera ile okut. Bilgisayar ve telefon aynı ağda olmalı. Aynı ağda değilseniz `npx expo start --tunnel` kullanın.
+
+Mağazadaki Expo Go SDK 58'i desteklemiyorsa: Android'de telefonu USB ile bağlayıp `npm run android` çalıştırın, Expo CLI doğru sürümü kurar. iOS'ta `npx eas-cli@latest go` ile kurulur (Expo hesabı gerekir).
+
+Sık kullanılan komutlar:
+
+| Komut               | Ne yapar                                   |
+| ------------------- | ------------------------------------------ |
+| `npm start`         | Geliştirme sunucusunu başlatır             |
+| `npm run web`       | Uygulamayı tarayıcıda açar                 |
+| `npm run lint`      | ESLint ve Prettier kontrolü                |
+| `npm run typecheck` | TypeScript tip kontrolü                    |
+| `npm run format`    | Bütün dosyaları Prettier ile biçimlendirir |
+| `npm run doctor`    | Bağımlılık ve ayar sorunlarını arar        |
+
+Paket eklerken `npm install` yerine `npx expo install <paket>` kullanın, SDK ile uyumlu sürümü o seçer. PR açmadan önce `npm run lint` ve `npm run typecheck` temiz geçmeli.
+
+## Klasör yapısı
+
+Kod özelliklere (feature) göre ayrılır. Bağımlılık tek yönde akar: `app → features → shared`.
+
+```
+src/
+  app/                 Yalnızca rotalar (Expo Router). Her dosya bir ekran adresidir.
+  features/            Uygulamanın özellikleri: welcome, auth, lesson, league...
+    <ad>/
+      index.ts         Feature'ın dışarıya açılan tek kapısı
+      screens/         Rotaların gösterdiği ekranlar
+      components/      Yalnızca bu feature'da kullanılan bileşenler
+      hooks/  api/  model/   Gerektiğinde
+  shared/              Birden çok feature'ın kullandığı kod
+    ui/
+      primitives/      React Native Reusables bileşenleri, temaya uyarlanmış
+      *.tsx            Oyun bileşenleri, Penpot'taki adlarıyla (Taş, Seçenek, Alan...)
+    lib/               Yardımcılar (ör. cn)
+  global.css           Tek tema dosyası: renk, yazı tipi, köşe ve boşluk değerleri
+```
+
+Kurallar (ESLint ile denetlenir):
+
+- `src/app` içindeki rota dosyası tek satırdır, ekranı feature'dan alır: `export { WelcomeScreen as default } from '@/features/welcome';`
+- Bir feature başka bir feature'ı içe aktarmaz. İki feature aynı koda ihtiyaç duyarsa o kod `shared`'a taşınır.
+- Feature'lar dışarıdan yalnızca `index.ts` üzerinden kullanılır, iç dosyalarına doğrudan erişilmez.
+- `shared` hiçbir feature'a bağlı olamaz.
+- Yeni bir React Native Reusables bileşeni eklemek için: `npx @react-native-reusables/cli@latest add <bileşen>`. Bileşen `src/shared/ui/primitives` klasörüne gelir.
 
 ## API ile ilişki
 
