@@ -37,7 +37,7 @@ Sık kullanılan komutlar:
 | `npm run format`    | Bütün dosyaları Prettier ile biçimlendirir |
 | `npm run doctor`    | Bağımlılık ve ayar sorunlarını arar        |
 
-Paket eklerken `npm install` yerine `npx expo install <paket>` kullanın, SDK ile uyumlu sürümü o seçer. PR açmadan önce `npm run lint` ve `npm run typecheck` temiz geçmeli.
+Paket eklerken `npm install` yerine `npx expo install <paket>` kullanın, SDK ile uyumlu sürümü o seçer. PR açmadan önce `npm run lint`, `npm run format:check` ve `npm run typecheck` temiz geçmeli; aynı kontroller her PR'da GitHub Actions'ta da çalışır.
 
 ## Klasör yapısı
 
@@ -155,6 +155,7 @@ Hata durumları, sürüm kontrolü ve test sürümü.
 
 - `main` dalına doğrudan push yapılamaz. Her değişiklik pull request ile gelir.
 - Her pull request en az bir onay almadan birleşmez. Onaydan sonra yeni commit gelirse onay yenilenir.
+- CI ("Lint ve tip kontrolü": ESLint, Prettier ve TypeScript) geçmeyen pull request birleşmez.
 - Açık kalan yorumlar çözülmeden birleştirme yapılmaz.
 - Dal adları `feature/kisa-aciklama` veya `fix/kisa-aciklama` biçimindedir.
 - Pull request küçük tutulur ve tek bir işi yapar. Açıklamada ilgili issue yazılır (`Closes #9`).
