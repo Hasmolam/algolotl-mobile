@@ -57,16 +57,41 @@ src/
       primitives/      React Native Reusables bileşenleri, temaya uyarlanmış
       *.tsx            Oyun bileşenleri, Penpot'taki adlarıyla (Taş, Seçenek, Alan...)
     lib/               Yardımcılar (ör. cn)
+    session/           Oturum durumu (misafir / giriş yapmış)
   global.css           Tek tema dosyası: renk, yazı tipi, köşe ve boşluk değerleri
 ```
 
 Kurallar (ESLint ile denetlenir):
 
-- `src/app` içindeki rota dosyası tek satırdır, ekranı feature'dan alır: `export { WelcomeScreen as default } from '@/features/welcome';`
+- `src/app` içindeki rota dosyası tek satırdır, ekranı feature'dan alır: `export { WelcomeScreen as default } from '@/features/welcome';`. Tek istisna `_layout.tsx` dosyalarıdır, gezinmeyi onlar tanımlar.
+- Feature'lar birbirine import ile değil adresle geçer: `router.push('/sign-up')`.
 - Bir feature başka bir feature'ı içe aktarmaz. İki feature aynı koda ihtiyaç duyarsa o kod `shared`'a taşınır.
 - Feature'lar dışarıdan yalnızca `index.ts` üzerinden kullanılır, iç dosyalarına doğrudan erişilmez.
 - `shared` hiçbir feature'a bağlı olamaz.
 - Yeni bir React Native Reusables bileşeni eklemek için: `npx @react-native-reusables/cli@latest add <bileşen>`. Bileşen `src/shared/ui/primitives` klasörüne gelir.
+
+## Gezinme
+
+Gezinme [`src/app/_layout.tsx`](src/app/_layout.tsx) içinde, Expo Router'ın korumalı rotalarıyla (`Stack.Protected`) kurulu. Oturum durumu `src/shared/session` içindeki `useSession()` ile okunur. Şimdilik yalnızca bellekte tutuluyor, gerçek kayıt ve giriş #9 ile gelecek.
+
+| Kim görür             | Adres                           | Ekran                             |
+| --------------------- | ------------------------------- | --------------------------------- |
+| Yalnızca misafir      | `/`                             | Karşılama                         |
+|                       | `/sign-in`                      | Giriş                             |
+|                       | `/sign-up`                      | Kayıt ("İlerlemeni kaydet")       |
+| Yalnızca giriş yapmış | `/learn`, `/league`, `/profile` | Alt sekmeler: Öğren, Lig, Profil  |
+| Herkes                | `/lesson/[lessonId]`            | Ders (ilk ders hesapsız yapılır)  |
+|                       | `/lesson-result`                | Ders sonu                         |
+|                       | `/streak`                       | Seri (günün ilk dersinden sonra)  |
+|                       | `/league-promotion`             | Lig yükselme (sıralama değişince) |
+
+Erişimi olmayan bir adrese giden misafir `/` adresine, giriş yapmış kullanıcı `/learn` adresine yönlendirilir.
+
+Akışlar:
+
+- **İlk açılış:** Karşılama → ders → ders sonu → kayıt → seri → lig → öğrenme yolu. Hesabı olan kullanıcı karşılamadan girişe geçer.
+- **Günlük kullanım:** Öğrenme yolu → ders → ders sonu → (seri) → (lig) → öğrenme yolu. Seri ve lig ekranlarının gösterilip gösterilmeyeceği API'den gelecek (#14); şimdilik iki yol da düğme olarak duruyor.
+- Ders sonu, seri ve lig ekranlarından öğrenme yoluna `returnToLearningPath()` ile dönülür. Araya giren ekranlar geçmişten silinir, geri tuşu onlara dönmez.
 
 ## Tema ve temel bileşenler
 

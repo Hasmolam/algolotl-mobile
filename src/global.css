@@ -89,6 +89,10 @@
   /* İlerleme çubuğu zemini */
   --color-track: #dcdff0;
 
+  /* Sekme çubuğu: üst çizgi ve seçili olmayan sekme */
+  --color-nav-border: #e1e4f2;
+  --color-nav-inactive: #60648a;
+
   /* Kod kartı (koyu yüzey) */
   --color-code: #1b1d3a;
   --color-code-edge: #0f1126;
